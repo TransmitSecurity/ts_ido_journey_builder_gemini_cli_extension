@@ -88,7 +88,7 @@ function sanitizeErrorMessage(message, filePath) {
     const fileName = basename(filePath);
     const sanitized = message
         .replace(new RegExp(filePath, 'g'), fileName)
-        .replace(/\/[^\s]+\/[^\s]+\//g, ''); // Remove any other absolute paths
+        .replace(/[\/\\][^\s\/\\]+[\/\\][^\s\/\\]+[\/\\]/g, ''); // Remove any other absolute paths (Unix/Windows)
     
     return sanitized;
 }
@@ -277,7 +277,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
     if (request.params.name !== "journey_fixes" && 
-        request.params.name !== "validate_journey_metadata" &&
         request.params.name !== "validate_journey_structure" && 
         request.params.name !== "validate_journey_required_fields" && 
         request.params.name !== "validate_journey_expressions" &&

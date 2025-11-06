@@ -147,18 +147,12 @@ def fix_journey_metadata(journey_json: dict) -> None:
     if "exports" in journey_json and isinstance(journey_json["exports"], list):
         if len(journey_json["exports"]) > 0 and "data" in journey_json["exports"][0]:
             data = journey_json["exports"][0]["data"]
+            journey_type = data.get("type")
 
-            # Check journey type
-            if "type" in data:
-                journey_type = data["type"]
-                if journey_type not in valid_journey_types:
-                    data["type"] = "anonymous"
-                    log_auto_fix(
-                        f"Changed invalid journey type '{journey_type}' to 'anonymous'"
-                    )
-            else:
+            if journey_type not in valid_journey_types:
+                action = f"Changed invalid journey type '{journey_type}'" if journey_type else "Added missing journey type"
                 data["type"] = "anonymous"
-                log_auto_fix("Added missing journey type 'anonymous'")
+                log_auto_fix(f"{action} to 'anonymous'")
 
 
 def fix_journey_required_fields(journey_json: dict) -> None:
@@ -174,51 +168,23 @@ def fix_journey_required_fields(journey_json: dict) -> None:
             one_hour_ago = current_time - 3600
 
             # Fix top-level data timestamps (in milliseconds with _date suffix)
-            if "created_date" not in data:
-                data["created_date"] = current_time_ms
-                log_auto_fix(
-                    f"Added missing 'created_date' timestamp to data: {current_time_ms}"
-                )
-            elif isinstance(data.get("created_date"), (int, float)):
-                timestamp = data["created_date"]
-                if timestamp < one_hour_ago_ms:
-                    from datetime import datetime
-
-                    old_timestamp_dt = datetime.fromtimestamp(timestamp / 1000)
-                    data["created_date"] = current_time_ms
-                    log_auto_fix(
-                        f"Updated 'created_date' from {old_timestamp_dt.strftime('%Y-%m-%d %H:%M:%S')} "
-                        f"to current time: {current_time_ms}"
-                    )
-                elif timestamp > current_time_ms + 60000:
-                    data["created_date"] = current_time_ms
-                    log_auto_fix(
-                        f"Updated 'created_date' from future timestamp {timestamp} "
-                        f"to current time: {current_time_ms}"
-                    )
-
-            if "last_modified_date" not in data:
-                data["last_modified_date"] = current_time_ms
-                log_auto_fix(
-                    f"Added missing 'last_modified_date' timestamp to data: {current_time_ms}"
-                )
-            elif isinstance(data.get("last_modified_date"), (int, float)):
-                timestamp = data["last_modified_date"]
-                if timestamp < one_hour_ago_ms:
-                    from datetime import datetime
-
-                    old_timestamp_dt = datetime.fromtimestamp(timestamp / 1000)
-                    data["last_modified_date"] = current_time_ms
-                    log_auto_fix(
-                        f"Updated 'last_modified_date' from {old_timestamp_dt.strftime('%Y-%m-%d %H:%M:%S')} "
-                        f"to current time: {current_time_ms}"
-                    )
-                elif timestamp > current_time_ms + 60000:
-                    data["last_modified_date"] = current_time_ms
-                    log_auto_fix(
-                        f"Updated 'last_modified_date' from future timestamp {timestamp} "
-                        f"to current time: {current_time_ms}"
-                    )
+            for ts_field in ["created_date", "last_modified_date"]:
+                if ts_field not in data:
+                    data[ts_field] = current_time_ms
+                    log_auto_fix(f"Added missing '{ts_field}' timestamp to data: {current_time_ms}")
+                elif isinstance(data.get(ts_field), (int, float)):
+                    timestamp = data[ts_field]
+                    if timestamp < one_hour_ago_ms:
+                        from datetime import datetime
+                        old_timestamp_dt = datetime.fromtimestamp(timestamp / 1000)
+                        data[ts_field] = current_time_ms
+                        log_auto_fix(
+                            f"Updated '{ts_field}' from {old_timestamp_dt.strftime('%Y-%m-%d %H:%M:%S')} "
+                            f"to current time: {current_time_ms}"
+                        )
+                    elif timestamp > current_time_ms + 60000:
+                        data[ts_field] = current_time_ms
+                        log_auto_fix(f"Updated '{ts_field}' from future timestamp {timestamp} to current time: {current_time_ms}")
 
             # Check for required top-level data fields
             if "versions" not in data:
@@ -230,29 +196,17 @@ def fix_journey_required_fields(journey_json: dict) -> None:
                 if len(data["versions"]) > 0:
                     version = data["versions"][0]
 
-                    if "state" not in version:
-                        version["state"] = "version"
-                        log_auto_fix(
-                            "Added missing 'state' field with default value 'version'"
-                        )
-
-                    if "desc" not in version:
-                        version["desc"] = "Generated journey"
-                        log_auto_fix(
-                            "Added missing 'desc' field with default description"
-                        )
-
-                    if "created_at" not in version:
-                        version["created_at"] = current_time
-                        log_auto_fix(
-                            f"Added missing 'created_at' timestamp to version: {current_time}"
-                        )
-
-                    if "last_modified" not in version:
-                        version["last_modified"] = current_time
-                        log_auto_fix(
-                            f"Added missing 'last_modified' timestamp to version: {current_time}"
-                        )
+                    # Set default values for missing fields
+                    defaults = {
+                        "state": ("version", "Added missing 'state' field with default value 'version'"),
+                        "desc": ("Generated journey", "Added missing 'desc' field with default description"),
+                        "created_at": (current_time, f"Added missing 'created_at' timestamp to version: {current_time}"),
+                        "last_modified": (current_time, f"Added missing 'last_modified' timestamp to version: {current_time}"),
+                    }
+                    for field, (default_value, log_message) in defaults.items():
+                        if field not in version:
+                            version[field] = default_value
+                            log_auto_fix(log_message)
 
                     # Validate and fix version timestamps (in seconds)
                     for ts_field in ["created_at", "last_modified"]:
@@ -332,17 +286,13 @@ def fix_invalid_uuids(workflow: dict) -> None:
                 if "target" in link and link["target"]:
                     link["target"] = uuid_mapping.get(link["target"], link["target"])
 
-        # Replace loop_body id references
-        if node.get("type") == "loop" and "loop_body" in node:
-            if isinstance(node["loop_body"], dict) and "id" in node["loop_body"]:
-                old_body_id = node["loop_body"]["id"]
-                node["loop_body"]["id"] = uuid_mapping.get(old_body_id, old_body_id)
-
-        # Replace block id references
-        if node.get("type") == "block" and "block" in node:
-            if isinstance(node["block"], dict) and "id" in node["block"]:
-                old_block_id = node["block"]["id"]
-                node["block"]["id"] = uuid_mapping.get(old_block_id, old_block_id)
+        # Replace loop_body and block id references
+        for body_key in [("loop", "loop_body"), ("block", "block")]:
+            node_type, field_name = body_key
+            if node.get("type") == node_type and field_name in node:
+                if isinstance(node[field_name], dict) and "id" in node[field_name]:
+                    old_id = node[field_name]["id"]
+                    node[field_name]["id"] = uuid_mapping.get(old_id, old_id)
 
         new_nodes[new_id] = node
 
@@ -367,24 +317,17 @@ def fix_workflow_uuids(workflow: dict) -> None:
 
     # Now validate and fix node IDs
     for node_id, node in workflow["nodes"].items():
-        if "id" in node:
-            if node["id"] != node_id:
-                node["id"] = node_id
-                log_auto_fix(f"Fixed mismatched id for node {node_id}")
-        else:
+        if node.get("id") != node_id:
+            action = "Fixed mismatched" if "id" in node else "Added missing"
             node["id"] = node_id
-            log_auto_fix(f"Added missing 'id' field to node {node_id}")
+            log_auto_fix(f"{action} id for node {node_id}")
 
     # Fix workflow ID
-    if "id" in workflow:
-        if not re.match(uuid_pattern, workflow["id"]):
-            new_uuid = str(uuid.uuid4())
-            workflow["id"] = new_uuid
-            log_auto_fix(f"Generated new workflow ID: {new_uuid}")
-    else:
+    if "id" not in workflow or not re.match(uuid_pattern, workflow.get("id", "")):
         new_uuid = str(uuid.uuid4())
         workflow["id"] = new_uuid
-        log_auto_fix(f"Added missing workflow ID: {new_uuid}")
+        action = "Added missing" if "id" not in workflow else "Generated new"
+        log_auto_fix(f"{action} workflow ID: {new_uuid}")
 
 
 def fix_loop_and_block_body(workflow: dict) -> None:
@@ -459,41 +402,19 @@ def fix_condition_data_types(workflow: dict) -> None:
         if node.get("type") == "condition" and "condition" in node:
             condition = node["condition"]
 
-            # Check that field expressions are wrapped in backticks
-            if "field" in condition:
-                field = condition["field"]
-                if isinstance(field, dict) and field.get("type") == "expression":
-                    value = field.get("value", "")
-                    if isinstance(value, str) and value:
-                        # Auto-fix internal backticks first
-                        fixed_value, was_fixed = fix_internal_backticks_in_expression(
-                            value
-                        )
-                        if was_fixed:
-                            field["value"] = fixed_value
-                            log_auto_fix(
-                                f"Node {node_id}: Replaced internal backticks with escaped quotes in condition 'field': {value} → {fixed_value}"
-                            )
-                            value = fixed_value
-            # Check that value expressions are wrapped in backticks
-            if "value" in condition:
-                value_field = condition["value"]
-                if (
-                    isinstance(value_field, dict)
-                    and value_field.get("type") == "expression"
-                ):
-                    value = value_field.get("value", "")
-                    if isinstance(value, str) and value:
-                        # Auto-fix internal backticks first
-                        fixed_value, was_fixed = fix_internal_backticks_in_expression(
-                            value
-                        )
-                        if was_fixed:
-                            value_field["value"] = fixed_value
-                            log_auto_fix(
-                                f"Node {node_id}: Replaced internal backticks with escaped quotes in condition 'value': {value} → {fixed_value}"
-                            )
-                            value = fixed_value
+            # Check field and value expressions
+            for field_name in ["field", "value"]:
+                if field_name in condition:
+                    field_obj = condition[field_name]
+                    if isinstance(field_obj, dict) and field_obj.get("type") == "expression":
+                        value = field_obj.get("value", "")
+                        if isinstance(value, str) and value:
+                            fixed_value, was_fixed = fix_internal_backticks_in_expression(value)
+                            if was_fixed:
+                                field_obj["value"] = fixed_value
+                                log_auto_fix(
+                                    f"Node {node_id}: Replaced internal backticks with escaped quotes in condition '{field_name}': {value} → {fixed_value}"
+                                )
 
 
 def fix_information_node_backtick_concatenation(value: str) -> tuple:
@@ -781,72 +702,36 @@ def fix_information_node_expressions(workflow: dict) -> None:
                         f"Node {node_id}: Added missing 'title' field to information node with empty string value"
                     )
 
-                # Check the text field
-                if "text" in action and isinstance(action["text"], dict):
-                    if action["text"].get("type") == "expression":
-                        text_value = action["text"].get("value", "")
-
-                        fixed_value, was_fixed = (
-                            fix_information_node_backtick_concatenation(text_value)
-                        )
-                        if was_fixed:
-                            action["text"]["value"] = fixed_value
-                            log_auto_fix(
-                                f"Node {node_id}: Converted excessive backticking to template literal in text field:\n"
-                                f"    FROM: {text_value[:80]}{'...' if len(text_value) > 80 else ''}\n"
-                                f"    TO: {fixed_value[:80]}{'...' if len(fixed_value) > 80 else ''}"
-                            )
-
-                # Check title field
-                if "title" in action and isinstance(action["title"], dict):
-                    if action["title"].get("type") == "expression":
-                        title_value = action["title"].get("value", "")
-
-                        fixed_value, was_fixed = (
-                            fix_information_node_backtick_concatenation(title_value)
-                        )
-                        if was_fixed:
-                            action["title"]["value"] = fixed_value
-                            log_auto_fix(
-                                f"Node {node_id}: Converted excessive backticking to template literal in title field: {title_value} → {fixed_value}"
-                            )
-
-                # Check button_text field
-                if "button_text" in action and isinstance(action["button_text"], dict):
-                    if action["button_text"].get("type") == "expression":
-                        button_value = action["button_text"].get("value", "")
-
-                        fixed_value, was_fixed = (
-                            fix_information_node_backtick_concatenation(button_value)
-                        )
-                        if was_fixed:
-                            action["button_text"]["value"] = fixed_value
-                            log_auto_fix(
-                                f"Node {node_id}: Converted excessive backticking to template literal in button_text field: {button_value} → {fixed_value}"
-                            )
+                # Check text, title, and button_text fields
+                for field_name in ["text", "title", "button_text"]:
+                    if field_name in action and isinstance(action[field_name], dict):
+                        if action[field_name].get("type") == "expression":
+                            field_value = action[field_name].get("value", "")
+                            fixed_value, was_fixed = fix_information_node_backtick_concatenation(field_value)
+                            if was_fixed:
+                                action[field_name]["value"] = fixed_value
+                                if field_name == "text" and len(field_value) > 80:
+                                    log_auto_fix(
+                                        f"Node {node_id}: Converted excessive backticking to template literal in {field_name} field:\n"
+                                        f"    FROM: {field_value[:80]}...\n"
+                                        f"    TO: {fixed_value[:80]}..."
+                                    )
+                                else:
+                                    log_auto_fix(
+                                        f"Node {node_id}: Converted excessive backticking to template literal in {field_name} field: {field_value} → {fixed_value}"
+                                    )
 
 
 def extract_workflow_from_journey(journey_json: dict) -> dict:
     """Extract workflow from journey JSON."""
-    workflow = None
     if "exports" in journey_json:
-        if isinstance(journey_json["exports"], list):
-            if len(journey_json["exports"]) > 0:
-                if "data" in journey_json["exports"][0]:
-                    if "versions" in journey_json["exports"][0]["data"]:
-                        if len(journey_json["exports"][0]["data"]["versions"]) > 0:
-                            if (
-                                "workflow"
-                                in journey_json["exports"][0]["data"]["versions"][0]
-                            ):
-                                workflow = journey_json["exports"][0]["data"][
-                                    "versions"
-                                ][0]["workflow"]
-    else:
-        if "workflow" in journey_json:
-            workflow = journey_json["workflow"]
-
-    return workflow
+        exports = journey_json.get("exports", [])
+        if isinstance(exports, list) and len(exports) > 0:
+            data = exports[0].get("data", {})
+            versions = data.get("versions", [])
+            if len(versions) > 0:
+                return versions[0].get("workflow")
+    return journey_json.get("workflow")
 
 
 # ============================================================================
@@ -1032,31 +917,14 @@ def update_variable_initialization_with_fields(
 
                                 # Parse current value
                                 try:
-                                    # Handle null
-                                    if current_value == "null":
-                                        # Create new object with all fields (unescaped - json.dump will escape it)
-                                        field_pairs = [
-                                            f'"{field}": ""'
-                                            for field in required_fields
-                                        ]
+                                    # Handle null or empty object
+                                    if current_value == "null" or current_value in ["{}", "`{}`", '"{}"']:
+                                        field_pairs = [f'"{field}": ""' for field in required_fields]
                                         new_value = "{" + ", ".join(field_pairs) + "}"
                                         var["value"]["value"] = new_value
+                                        from_value = "null" if current_value == "null" else "empty object"
                                         log_auto_fix(
-                                            f"Updated variable '{var_name}' initialization from null to object with fields: {required_fields}"
-                                        )
-                                        return True
-
-                                    # Handle empty object
-                                    elif current_value in ["{}", "`{}`", '"{}"']:
-                                        # Create new object with all fields (unescaped - json.dump will escape it)
-                                        field_pairs = [
-                                            f'"{field}": ""'
-                                            for field in required_fields
-                                        ]
-                                        new_value = "{" + ", ".join(field_pairs) + "}"
-                                        var["value"]["value"] = new_value
-                                        log_auto_fix(
-                                            f"Updated variable '{var_name}' initialization from empty object to object with fields: {required_fields}"
+                                            f"Updated variable '{var_name}' initialization from {from_value} to object with fields: {required_fields}"
                                         )
                                         return True
 
