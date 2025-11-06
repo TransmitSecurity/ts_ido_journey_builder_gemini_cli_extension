@@ -7,7 +7,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { execFile } from "child_process";
 import { access, constants, readFile, stat } from "fs/promises";
-import { basename, dirname, join, resolve } from "path";
+import { basename, dirname, extname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 import { promisify } from "util";
 
