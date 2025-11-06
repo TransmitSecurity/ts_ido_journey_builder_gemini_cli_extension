@@ -200,41 +200,11 @@ def fix_journey_required_fields(journey_json: dict) -> None:
                     defaults = {
                         "state": ("version", "Added missing 'state' field with default value 'version'"),
                         "desc": ("Generated journey", "Added missing 'desc' field with default description"),
-                        "created_at": (current_time, f"Added missing 'created_at' timestamp to version: {current_time}"),
-                        "last_modified": (current_time, f"Added missing 'last_modified' timestamp to version: {current_time}"),
                     }
                     for field, (default_value, log_message) in defaults.items():
                         if field not in version:
                             version[field] = default_value
                             log_auto_fix(log_message)
-
-                    # Validate and fix version timestamps (in seconds)
-                    for ts_field in ["created_at", "last_modified"]:
-                        if ts_field in version:
-                            timestamp = version[ts_field]
-
-                            # Check if it's a valid number
-                            if not isinstance(timestamp, (int, float)):
-                                continue
-
-                            # Auto-fix: timestamp too old (more than 1 hour ago)
-                            if timestamp < one_hour_ago:
-                                from datetime import datetime
-
-                                old_timestamp_dt = datetime.fromtimestamp(timestamp)
-                                version[ts_field] = current_time
-                                log_auto_fix(
-                                    f"Updated version '{ts_field}' from {old_timestamp_dt.strftime('%Y-%m-%d %H:%M:%S')} "
-                                    f"to current time: {current_time}"
-                                )
-
-                            # Auto-fix: timestamp in the future
-                            elif timestamp > current_time + 60:
-                                version[ts_field] = current_time
-                                log_auto_fix(
-                                    f"Updated version '{ts_field}' from future timestamp {timestamp} "
-                                    f"to current time: {current_time}"
-                                )
 
                     # Validate state field
                     if "state" in version:
@@ -248,6 +218,41 @@ def fix_journey_required_fields(journey_json: dict) -> None:
                             log_auto_fix(
                                 f"Changed invalid state '{state}' to 'version'"
                             )
+
+            # Validate and fix data-level timestamps (in milliseconds)
+            current_time_ms = int(time.time() * 1000)
+            one_hour_ago_ms = current_time_ms - (3600 * 1000)
+            
+            for ts_field in ["created_date", "last_modified_date"]:
+                if ts_field not in data:
+                    data[ts_field] = current_time_ms
+                    log_auto_fix(f"Added missing '{ts_field}' timestamp: {current_time_ms}")
+                else:
+                    timestamp = data[ts_field]
+                    
+                    # Check if it's a valid number
+                    if not isinstance(timestamp, (int, float)):
+                        data[ts_field] = current_time_ms
+                        log_auto_fix(f"Fixed invalid '{ts_field}' value to current time: {current_time_ms}")
+                        continue
+                    
+                    # Auto-fix: timestamp too old (more than 1 hour ago)
+                    if timestamp < one_hour_ago_ms:
+                        from datetime import datetime
+                        old_timestamp_dt = datetime.fromtimestamp(timestamp / 1000)
+                        data[ts_field] = current_time_ms
+                        log_auto_fix(
+                            f"Updated '{ts_field}' from {old_timestamp_dt.strftime('%Y-%m-%d %H:%M:%S')} "
+                            f"to current time: {current_time_ms}"
+                        )
+                    
+                    # Auto-fix: timestamp in the future
+                    elif timestamp > current_time_ms + 60000:  # 60 seconds in ms
+                        data[ts_field] = current_time_ms
+                        log_auto_fix(
+                            f"Updated '{ts_field}' from future timestamp {timestamp} "
+                            f"to current time: {current_time_ms}"
+                        )
 
 
 def fix_invalid_uuids(workflow: dict) -> None:

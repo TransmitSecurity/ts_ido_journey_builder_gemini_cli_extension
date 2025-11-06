@@ -7,7 +7,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { execFile } from "child_process";
 import { access, constants, readFile, stat } from "fs/promises";
-import { basename, dirname, extname, join, resolve } from "path";
+import { basename, dirname, extname, isAbsolute, join, relative, resolve } from "path";
 import { fileURLToPath } from "url";
 import { promisify } from "util";
 
@@ -37,7 +37,8 @@ async function validatePath(filePath) {
     
     if (workspaceFolder) {
         const absoluteWorkspace = resolve(workspaceFolder);
-        if (absolutePath.startsWith(absoluteWorkspace + '/') || absolutePath === absoluteWorkspace) {
+        const relativePath = relative(absoluteWorkspace, absolutePath);
+        if (!relativePath.startsWith('..') && !isAbsolute(relativePath)) {
             isWithinAllowedPath = true;
         }
     }
@@ -45,7 +46,8 @@ async function validatePath(filePath) {
     // Also allow files in the current working directory (where gemini was invoked)
     if (!isWithinAllowedPath) {
         const absoluteCwd = resolve(cwd);
-        if (absolutePath.startsWith(absoluteCwd + '/') || absolutePath === absoluteCwd) {
+        const relativePath = relative(absoluteCwd, absolutePath);
+        if (!relativePath.startsWith('..') && !isAbsolute(relativePath)) {
             isWithinAllowedPath = true;
         }
     }

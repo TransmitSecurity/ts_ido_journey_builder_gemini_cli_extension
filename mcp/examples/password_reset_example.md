@@ -455,7 +455,7 @@ Complete the journey with appropriate success messaging, whether the user regist
           }
         ],
         "name": "Email OTP Password Reset with Passkey Suggestion",
-        "last_modified_data": 1703097600000,
+        "last_modified_date": 1703097600000,
         "type": "anonymous",
         "desc": "Secure password reset flow using email OTP verification with optional passkey registration"
       },

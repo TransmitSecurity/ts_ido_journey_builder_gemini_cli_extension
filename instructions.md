@@ -85,7 +85,7 @@ Required structure:
         },
         "version_id": "default_version", "state": "version", "desc": "default_version"
       }],
-      "name": "Journey Name", "last_modified_data": <timestamp>, "type": "anonymous", "desc": "Description"
+      "name": "Journey Name", "last_modified_date": <timestamp>, "type": "anonymous", "desc": "Description"
     },
     "category": "policy", "type": "dependency",
     "constraints": [{"server_version": "8.2.0", "type": "server_version"}, {"application_type": "ido", "type": "application_type"}, {"db_version": 5, "type": "db_version"}],
@@ -1850,8 +1850,7 @@ Examples include complete importable JSON that has passed all validators
 5. **Consult online documentation**: Use web search to find pages in `https://developer.transmitsecurity.com/guides/orchestration/` that will clarify any confusion that might've arisen regarding required fields, expression formatting, valid node types.
 6. **Fix errors**: Address any validation errors and re-save
 7. **Repeat until clean**: Continue until validator reports no errors
-8. **Fill the fields 'created_at' and 'last_modified' by taking current timestamp in ms** Do not simply generate the values for these fields, but call a tool to get the current timestamp in miliseconds to fill these fields (command `date +%s000`). 
-9. **Conclusion**
+8. **Conclusion**
   a. **In case of success** Present the user with a summary explaining the journey and the path to the final journey json file (which should not have been deleted)
   b. **In case of failure** Explain why it was not possible to generate the journey and give suggestions of how to refine the prompt for the next attempt
 
