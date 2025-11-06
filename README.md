@@ -349,6 +349,19 @@ Edit `mcp/node_definitions.json` to add or update node type definitions. The val
 
 ### Common Issues
 
+**MCP Server Connection Failed**
+
+If the extension fails to connect, the MCP server is missing npm dependencies:
+
+```bash
+cd ~/.gemini/extensions/ts-ido-journey-builder/mcp
+npm install
+```
+
+Then restart Gemini CLI.
+
+**Validation Issues**
+
 - Ensure Python 3 is installed and available as `python3`
 - Check that journey JSON file path is correct and readable
 - Review specific validation error messages
