@@ -1,0 +1,1006 @@
+{
+  "_metadata": {
+    "description": "Unified node type definitions for journey validation",
+    "version": "1.0.0",
+    "field_types": [
+      "expression",
+      "string",
+      "object",
+      "array",
+      "boolean",
+      "number"
+    ]
+  },
+  "nodes": {
+    "transmit_platform_password_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "user_identifier": "expression",
+        "password": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_password_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "password": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_email_otp_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "user_identifier": "expression",
+        "email": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_sms_otp_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "user_identifier": "expression",
+        "phone": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_web_authn_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "webauthn_encoded_result": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_totp_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "user_identifier": "expression",
+        "totp_code": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_mobile_biometrics_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_custom_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_temp_code_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_email_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "email": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_phone_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "phone": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_web_authn_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_totp_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_mobile_biometrics_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_temporary_password_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_email_deregistration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_phone_deregistration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_delete_mobile_biometrics": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_email_validation": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "email": "expression",
+        "code_length": "expression",
+        "expiry_in_minutes": "expression",
+        "max_failed_attempts": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_sms_validation": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "phone": "expression",
+        "code_length": "expression",
+        "max_failed_attempts": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_device_validation": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["Yes", "No"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "transmit_platform_create_user": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {
+        "email": "expression",
+        "phone_number": "expression",
+        "username": "expression"
+      },
+      "at_least_one_of": ["email", "phone_number", "username"],
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure", "user already exists"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_custom_user_data": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["success_child"],
+        "escape": ["failure"]
+      },
+      "deprecated": false
+    },
+    "transmit_platform_read_custom_user_data": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_get_user_emails": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_get_user_identifiers": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_get_user_phones": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_device_registration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_is_user_authenticated": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_create_user_token": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": true,
+      "replacement": "transmit_platform_sso_enrich_token"
+    },
+    "transmit_platform_enrich_token": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_sso_enrich_session": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_sso_enrich_token": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_sso_has_valid_session": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {"branch": ["yes", "no", "Default"]},
+      "deprecated": false
+    },
+    "transmit_platform_transaction_signing_totp": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_transaction_signing_webauthn": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_mobile_biometrics_transaction_signing": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_mobile_approve_transaction_signing": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_platform_mobile_approve_authentication": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "transmit_idv_hosted": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {
+        "callback_url": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["allow_child", "challenge_child", "deny_child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "transmit_idv_api": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["allow_child", "challenge_child", "deny_child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "transmit_acp": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": true,
+      "required_fields": {
+        "action_type": "expression"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["trust_child", "allow_child", "challenge_child", "deny_child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "loop": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "max_iterations": "expression",
+        "condition": "object",
+        "variables": "array"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "block": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "condition": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "condition": "object"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["true", "false"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "procedure": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "information": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "text": "expression",
+        "button_text": "expression",
+        "title": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "set_variables": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "variables": "array"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "json_data": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "data": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "sdk_data": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "data": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["child"],
+        "escape": []
+      },
+      "deprecated": false
+    },
+    "reject": {
+      "is_action": true,
+      "is_terminal": true,
+      "is_platform_output": false,
+      "required_fields": {
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "text": "expression"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "rejection": {
+      "is_action": false,
+      "is_terminal": true,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "auth_pass": {
+      "is_action": true,
+      "is_terminal": true,
+      "is_platform_output": false,
+      "required_fields": {
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "accept": {
+      "is_action": true,
+      "is_terminal": true,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "http_auth_pass": {
+      "is_action": false,
+      "is_terminal": true,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "email": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "emails": "expression",
+        "text": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "subject": "expression"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "sms": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "phone": "expression",
+        "text": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "set_cookies": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "cookies": "array",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "custom_activity_log": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "report_name": "expression",
+        "report_type": "expression",
+        "data": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "events_enrichment": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "data": "array",
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "report": "expression"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "invoke_idp": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "provider_id": "string",
+        "provider_config": "object"
+      },
+      "optional_fields": {
+        "idp_response_variable": "string"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "validate_token": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "token": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "custom_session_data": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "data": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "custom_token_enrichment": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "data": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "function_invoke": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "function_id": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "parameters": "object"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "wait_for_ticket": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "ticket_id": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "create_ticket": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "ticket_type": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "data": "expression"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "update_ticket": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "ticket_id": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {
+        "data": "expression"
+      },
+      "required_links": {},
+      "deprecated": false
+    },
+    "consume_ticket": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {
+        "ticket_id": "expression",
+        "metadata": "object"
+      },
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "restore_user_context": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "login_form": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "special_validation": "login_form",
+      "deprecated": false
+    },
+    "get_information": {
+      "is_action": true,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {
+        "branch": ["child"],
+        "escape": []
+      },
+      "special_validation": "get_information_form",
+      "deprecated": false
+    },
+    "ldap_delete_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "ldap_bind_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "ldap_update_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "ldap_create_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "ldap_fetch_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "ldap_update_password_entry": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "fragment_start": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "fragment_compound": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "configuration": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "login_token_enrichment": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    },
+    "custom_user_data": {
+      "is_action": false,
+      "is_terminal": false,
+      "is_platform_output": false,
+      "required_fields": {},
+      "optional_fields": {},
+      "required_links": {},
+      "deprecated": false
+    }
+  },
+  "constants": {
+    "valid_presentation_values": [
+      "Hide",
+      "Action",
+      "Cancel",
+      "Failure",
+      "Custom",
+      "password expired",
+      "temporary access code expired",
+      "user already exists",
+      "server_only",
+      "no registered devices"
+    ],
+    "valid_link_types": ["branch", "escape"],
+    "valid_std_functions": [
+      "avg", "contains", "containsIf", "distinct", "filter", "find", "findFirst",
+      "generateQrCode", "getE164Number", "getE164NumberComponents", "isValidE164Number",
+      "jsonPath", "jsonToXml", "keys", "kv", "legacyField", "len", "map", "max", "min",
+      "randomBase64", "range", "reduce", "reverse", "rfind", "slice", "sort", "splice",
+      "stdev", "strToDouble", "strToInt", "sum", "typeOf", "uuid", "values",
+      "wrapPushToken", "xmlToJson"
+    ],
+    "valid_condition_data_types": ["boolean", "string"],
+    "valid_condition_types": ["generic"],
+    "valid_journey_types": ["anonymous"],
+    "valid_version_states": ["disabled", "version", "production", "legacy", "obsolete"],
+    "platform_implicit_variables": {
+      "error": "Only available after platform node execution"
+    },
+    "known_namespaces": ["std", "strings", "policy", "time", "webrequests", "crypto", "json"]
+  }
+}
+
