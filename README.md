@@ -49,7 +49,7 @@ The [Mosaic platform](https://developer.transmitsecurity.com/) is Transmit Secur
 Install the extension using the Gemini CLI:
 
 ```bash
-gemini extensions install https://github.com/TransmitSecurity/ido-journey-builder-gemini-cli
+gemini extensions install https://github.com/TransmitSecurity/ts_ido_journey_builder_gemini_cli_extension
 ```
 
 ## Configuration
